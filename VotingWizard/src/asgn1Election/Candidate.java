@@ -47,7 +47,10 @@ public class Candidate {
 	 * @throws ElectionException if <code>isNullOrEmpty(candName,candParty,candAbbrev) OR voteCount <0</code>
 	 */
 	public Candidate(String candName, String candParty, String candAbbrev, int voteCount) throws ElectionException {
-		
+		this.name = candName;
+		this.party = candParty;
+		this.abbrev = candAbbrev;
+		this.voteCount = voteCount;
 	}
 
 	/**
@@ -77,7 +80,8 @@ public class Candidate {
 	 * @throws ElectionException - see {@link #Candidate(String,String,String,int)}. 
 	 */
 	public Candidate copy() throws ElectionException {
-		
+		Candidate cand_copy = new Candidate(this.name, this.party, this.abbrev, this.voteCount);
+		return cand_copy;
 	}
 
 	/**
@@ -86,7 +90,7 @@ public class Candidate {
 	 * @return <code>String</code> containing <code>name</code> 
 	 */
 	public String getName() {
-		
+		return this.name;
 	}
 
 	/**
@@ -95,7 +99,7 @@ public class Candidate {
 	 * @return <code>String</code> containing <code>party</code> 
 	 */
 	public String getParty() {
-		
+		return this.party;
 	}
 
 	/**
@@ -104,7 +108,7 @@ public class Candidate {
 	 * @return <code>int</code> containing <code>voteCount</code> 
 	 */
 	public int getVoteCount() {
-		
+		return this.voteCount;
 	}
 
 	/**
@@ -113,14 +117,14 @@ public class Candidate {
 	 * @return <code>String</code> containing text version of <code>voteCount</code> 
 	 */
 	public String getVoteCountString() {
-		
+		return Integer.toString(this.voteCount);
 	}
 
 	/**
 	 * Simple method to increment the vote count for the candidate
 	 */
 	public void incrementVoteCount() {
-		
+		this.voteCount++;
 	}
 
 	/*
