@@ -7,8 +7,12 @@
 package asgn1Election;
 
 import java.util.BitSet;
+import java.util.Iterator;
 
 import asgn1Util.Strings;
+
+import java.util.ArrayList;
+import java.util.List;
 
 /**
  * 
@@ -27,7 +31,7 @@ public class PrefElection extends Election {
 	 * @param name <code>String</code> containing the Election name
 	 */
 	public PrefElection(String name) {
-		
+		super(name);
 	}
 
 	/*
@@ -47,7 +51,18 @@ public class PrefElection extends Election {
 	 */
 	@Override
 	public boolean isFormal(Vote v) {
+		List<Integer> checked = new ArrayList<Integer>();
+		for(Iterator<Integer> iter = v.iterator(); iter.hasNext(); ){
+			int value = iter.next();
+			if(checked.contains(value) || value < 1 || value > this.numCandidates){
+				return false;
+			}
+			else{
+				checked.add(value);
+			}
+		}
 		
+		return true;
 	}
 
 	/*

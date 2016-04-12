@@ -21,7 +21,7 @@ import java.util.List;
  */
 public class VoteList implements Vote {
 	/** Holds the information that comprises a single vote */
-	private List<Integer> vote;
+	private List<Integer> vote = new ArrayList<Integer>();
 
 	/** Number of candidates in the election */
 	private int numCandidates;
@@ -34,7 +34,7 @@ public class VoteList implements Vote {
 	 * this seat. 
 	 */
 	public VoteList(int numCandidates) {
-		
+		this.numCandidates = numCandidates;
 	}
 
 	/*
@@ -44,7 +44,14 @@ public class VoteList implements Vote {
 	 */
 	@Override
 	public boolean addPref(int index) {
+		if(this.vote.size() == this.numCandidates){
+			return false;
+		}
 		
+		else{
+			this.vote.add(index);
+			return true;
+		}
 	}
 
 	/*
@@ -54,6 +61,7 @@ public class VoteList implements Vote {
 	 */
 	@Override
 	public Vote copyVote() {
+		return null;
 		
 	}
 
@@ -74,6 +82,7 @@ public class VoteList implements Vote {
 	 */
 	@Override
 	public Vote invertVote() {
+		return null;
 
 	}
 
@@ -84,7 +93,8 @@ public class VoteList implements Vote {
 	 */
 	@Override
 	public Iterator<Integer> iterator() {
-		
+		return null;
+
 	}
 
 	/*

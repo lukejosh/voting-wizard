@@ -51,7 +51,7 @@ public class CandidateTest {
 		
 		testCopy.incrementVoteCount();
 		
-		assertNotEquals(testCand.getVoteCount(), testCopy.getVoteCount());
+		assertNotEquals(testCand.getVoteCount(), testCopy.getVoteCount()); //ensure it is a true copy
 	}
 
 }

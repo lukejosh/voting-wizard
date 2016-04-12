@@ -49,7 +49,8 @@ public class VoteCollection implements Collection {
 	 * @throws ElectionException if <code>NOT inRange(numCandidates)</code>
 	 */
 	public VoteCollection(int numCandidates) throws ElectionException {
-		
+		this.voteList = new ArrayList<Vote>(numCandidates);
+		this.numCandidates = numCandidates;
 	}
 	
 	/* 
@@ -111,7 +112,8 @@ public class VoteCollection implements Collection {
 	 */
 	@Override
 	public void includeFormalVote(Vote v) {
-	
+		this.voteList.add(v);
+		++this.formalCount;
 	}
 
 	/*
