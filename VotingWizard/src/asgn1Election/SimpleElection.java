@@ -8,7 +8,7 @@ package asgn1Election;
 
 import java.util.Collection;
 import java.util.Iterator;
-
+import java.util.TreeMap;
 import asgn1Util.Strings;
 
 /**
@@ -37,16 +37,15 @@ public class SimpleElection extends Election {
 	 */
 	@Override
 	public String findWinner() {
+		String result = "";
 		this.vc.countPrimaryVotes(this.cds);
-		Candidate winner = this.clearWinner((numVotes/2) + 1);
+		result += this.reportCountResult();
+		Candidate winner = this.clearWinner(0);
 		
-		if(winner != null){
-			return this.reportWinner(winner);
+		result += this.reportWinner(winner);
+		
+		return result;
 		}
-		else{
-			return "I'm a failure";
-		}
-	}
 
 	/* 
 	 * (non-Javadoc)
@@ -97,13 +96,17 @@ public class SimpleElection extends Election {
 	 */
 	@Override
 	protected Candidate clearWinner(int wVotes) {
+		int highestSeen = 0;
+		Candidate currentWinner = null;
+		
 		for(Candidate cand: this.cds.values()){
-			System.out.println("Name: " + cand.getName() + " Votes: " + cand.getVoteCountString());
-			if(cand.getVoteCount() >= wVotes){
-				return cand;
+			if(cand.getVoteCount() > highestSeen){
+				highestSeen = cand.getVoteCount();
+				currentWinner = cand;
 			}
 		}
-		return null;
+		
+		return currentWinner;
 	}
 
 	/**
