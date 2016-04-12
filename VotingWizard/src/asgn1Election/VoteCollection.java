@@ -7,6 +7,7 @@
 package asgn1Election;
 
 import java.util.ArrayList;
+import java.util.Iterator;
 import java.util.TreeMap;
 
 /**
@@ -49,7 +50,11 @@ public class VoteCollection implements Collection {
 	 * @throws ElectionException if <code>NOT inRange(numCandidates)</code>
 	 */
 	public VoteCollection(int numCandidates) throws ElectionException {
+		this.numCandidates = numCandidates;
 		
+		if(!CandidateIndex.inRange(this.numCandidates)){
+			throw new ElectionException("Number of candidates not in range");
+		}
 	}
 	
 	/* 
@@ -60,7 +65,11 @@ public class VoteCollection implements Collection {
 	@Override
 	public void countPrefVotes(TreeMap<CandidateIndex, Candidate> cds,
 			CandidateIndex elim) {
-	
+		for(Vote v: this.voteList){
+			if(this.getPrefthKey(v, cds, 1) == elim){
+				cds.get(this.getPrefthKey(v, cds, 2)).incrementVoteCount();
+			}
+		}
 	}
 
 	/*
@@ -70,7 +79,9 @@ public class VoteCollection implements Collection {
 	 */
 	@Override
 	public void countPrimaryVotes(TreeMap<CandidateIndex, Candidate> cds) {
-		
+		for(Vote v: this.voteList){
+			cds.get(this.getPrimaryKey(v)).incrementVoteCount();
+		}
 	}
 
 	/*
@@ -80,7 +91,7 @@ public class VoteCollection implements Collection {
 	 */
 	@Override
 	public void emptyTheCollection() {
-		
+		this.voteList.clear();
 	}
 
 	/*
@@ -90,7 +101,7 @@ public class VoteCollection implements Collection {
 	 */
 	@Override
 	public int getFormalCount() {
-	
+		return this.formalCount;
 	}
 
 	/*
@@ -100,7 +111,7 @@ public class VoteCollection implements Collection {
 	 */
 	@Override
 	public int getInformalCount() {
-		
+		return this.informalCount;
 	}
 
 	
@@ -111,7 +122,7 @@ public class VoteCollection implements Collection {
 	 */
 	@Override
 	public void includeFormalVote(Vote v) {
-	
+		this.voteList.add(v);
 	}
 
 	/*
@@ -121,7 +132,7 @@ public class VoteCollection implements Collection {
 	 */
 	@Override
 	public void updateInformalCount() {
-		
+		++this.informalCount;
 	}
 	
 	/**
@@ -144,7 +155,19 @@ public class VoteCollection implements Collection {
 	 * 
 	 */
 	private CandidateIndex getPrefthKey(Vote v,TreeMap<CandidateIndex, Candidate> cds, int pref) {
-
+		int currentIndex = pref;
+		CandidateIndex currentPreferredCandidate = v.getPreference(currentIndex);
+		while(currentIndex < cds.keySet().size()){
+			currentPreferredCandidate = v.getPreference(currentIndex);
+			
+			if(cds.keySet().contains(currentPreferredCandidate)){
+				return currentPreferredCandidate;
+			}
+			else{
+				++currentIndex;
+			}
+		}
+		return null;
 	}
 
 	/**
@@ -156,6 +179,19 @@ public class VoteCollection implements Collection {
 	 * @return <code>CandidateIndex</code> of the first preference candidate
 	 */
 	private CandidateIndex getPrimaryKey(Vote v) {
-        
-    }
+		Iterator<Integer> iter = v.iterator();
+		int value;
+		int index = 1;
+		CandidateIndex ci = null;
+		while(iter.hasNext()){
+			value = iter.next();
+			if(value == 1){
+				ci = new CandidateIndex(index);
+			}
+			else{
+				++index;
+			}
+		}
+		return ci;
+	}
 }

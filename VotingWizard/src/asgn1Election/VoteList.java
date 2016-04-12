@@ -34,7 +34,8 @@ public class VoteList implements Vote {
 	 * this seat. 
 	 */
 	public VoteList(int numCandidates) {
-		
+		this.numCandidates = numCandidates;
+		vote = new ArrayList<Integer>(numCandidates);
 	}
 
 	/*
@@ -44,7 +45,15 @@ public class VoteList implements Vote {
 	 */
 	@Override
 	public boolean addPref(int index) {
+		if(this.vote.size() >= this.numCandidates){
+			return false;
+		}
 		
+		else{
+			this.vote.add(index);
+			System.out.println(this.vote);
+			return true;
+		}
 	}
 
 	/*
@@ -54,7 +63,10 @@ public class VoteList implements Vote {
 	 */
 	@Override
 	public Vote copyVote() {
+		Vote newVote = new VoteList(this.numCandidates);
+		//TODO finish this method
 		
+		return newVote;
 	}
 
 	/*
@@ -64,6 +76,7 @@ public class VoteList implements Vote {
 	 */
 	@Override
 	public CandidateIndex getPreference(int cand) {
+		return new CandidateIndex(this.vote.indexOf(cand) + 1);
 
 	}
 
@@ -74,7 +87,7 @@ public class VoteList implements Vote {
 	 */
 	@Override
 	public Vote invertVote() {
-
+		return new VoteList(5);
 	}
 
 	/* 
@@ -84,7 +97,7 @@ public class VoteList implements Vote {
 	 */
 	@Override
 	public Iterator<Integer> iterator() {
-		
+		return this.vote.iterator();
 	}
 
 	/*
