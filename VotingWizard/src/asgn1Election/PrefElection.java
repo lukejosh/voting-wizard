@@ -71,7 +71,13 @@ public class PrefElection extends Election {
 	 */
 	@Override
 	protected Candidate clearWinner(int winVotes) {
-
+		for(Candidate cand: this.cds.values()){
+			System.out.println("Name: " + cand.getName() + " Votes: " + cand.getVoteCountString());
+			if(cand.getVoteCount() >= winVotes){
+				return cand;
+			}
+		}
+		return null;
 	}
 
 	/**

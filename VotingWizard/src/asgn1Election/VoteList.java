@@ -51,7 +51,6 @@ public class VoteList implements Vote {
 		
 		else{
 			this.vote.add(index);
-			System.out.println(this.vote);
 			return true;
 		}
 	}
@@ -87,7 +86,7 @@ public class VoteList implements Vote {
 	 */
 	@Override
 	public Vote invertVote() {
-		return new VoteList(5);
+		
 	}
 
 	/* 

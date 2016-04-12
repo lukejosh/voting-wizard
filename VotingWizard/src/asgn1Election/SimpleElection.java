@@ -7,6 +7,7 @@
 package asgn1Election;
 
 import java.util.Collection;
+import java.util.Iterator;
 
 import asgn1Util.Strings;
 
@@ -26,7 +27,7 @@ public class SimpleElection extends Election {
 	 * @param name <code>String</code> containing the Election name
 	 */
 	public SimpleElection(String name) {
-
+		super(name);
 	}
 
 	/*
@@ -36,7 +37,15 @@ public class SimpleElection extends Election {
 	 */
 	@Override
 	public String findWinner() {
+		this.vc.countPrimaryVotes(this.cds);
+		Candidate winner = this.clearWinner((numVotes/2) + 1);
 		
+		if(winner != null){
+			return this.reportWinner(winner);
+		}
+		else{
+			return "I'm a failure";
+		}
 	}
 
 	/* 
@@ -45,7 +54,27 @@ public class SimpleElection extends Election {
 	 */
 	@Override
 	public boolean isFormal(Vote v) {
+		Iterator<Integer> iter = v.iterator();
+		int value;
+		boolean firstFound = false;
 		
+		while (iter.hasNext()){
+			value = iter.next();
+			if(value == 1){
+				if(firstFound){
+					return false;
+				}
+				else{
+					firstFound = true;
+				}
+			}
+		}
+		if(firstFound){
+			return true;
+		}
+		else{
+			return false;
+		}
 	}
 
 	/*
@@ -68,7 +97,13 @@ public class SimpleElection extends Election {
 	 */
 	@Override
 	protected Candidate clearWinner(int wVotes) {
-		
+		for(Candidate cand: this.cds.values()){
+			System.out.println("Name: " + cand.getName() + " Votes: " + cand.getVoteCountString());
+			if(cand.getVoteCount() >= wVotes){
+				return cand;
+			}
+		}
+		return null;
 	}
 
 	/**

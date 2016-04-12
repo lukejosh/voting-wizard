@@ -51,7 +51,7 @@ public class VoteCollection implements Collection {
 	 */
 	public VoteCollection(int numCandidates) throws ElectionException {
 		this.numCandidates = numCandidates;
-		
+		this.voteList = new ArrayList<Vote>(numCandidates);
 		if(!CandidateIndex.inRange(this.numCandidates)){
 			throw new ElectionException("Number of candidates not in range");
 		}
@@ -123,6 +123,7 @@ public class VoteCollection implements Collection {
 	@Override
 	public void includeFormalVote(Vote v) {
 		this.voteList.add(v);
+		++this.formalCount;
 	}
 
 	/*
@@ -187,6 +188,7 @@ public class VoteCollection implements Collection {
 			value = iter.next();
 			if(value == 1){
 				ci = new CandidateIndex(index);
+				break;
 			}
 			else{
 				++index;
