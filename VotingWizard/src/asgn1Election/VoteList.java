@@ -74,8 +74,8 @@ public class VoteList implements Vote {
 	 * @see asgn1Election.Vote#getPreference(int)
 	 */
 	@Override
-	public CandidateIndex getPreference(int cand) {
-		return new CandidateIndex(this.vote.get(cand - 1));
+	public CandidateIndex getPreference(int pref) {
+		return new CandidateIndex(this.vote.indexOf(pref) + 1);
 
 	}
 

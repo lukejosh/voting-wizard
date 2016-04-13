@@ -8,6 +8,7 @@ package asgn1Election;
 
 import java.util.ArrayList;
 import java.util.Iterator;
+import java.util.List;
 import java.util.TreeMap;
 
 /**
@@ -67,12 +68,15 @@ public class VoteCollection implements Collection {
 	@Override
 	public void countPrefVotes(TreeMap<CandidateIndex, Candidate> cds,
 			CandidateIndex elim) {
-		System.out.println("Eliminating " + elim.toString());
 		for(Vote v: this.voteList){
 			CandidateIndex temp = this.getPrefthKey(v, cds, 1);
 			if(temp.compareTo(elim) == 0){
-				System.out.println("Redistributing: " + v.toString() + " to: " + this.getPrefthKey(v, cds, 2).toString());
-				cds.get(this.getPrefthKey(v, cds, 2)).incrementVoteCount();
+				if(this.getPrefthKey(v, cds, 2).compareTo(temp) == 0){
+					cds.get(this.getPrefthKey(v, cds, 3)).incrementVoteCount();
+				}
+				else{
+					cds.get(this.getPrefthKey(v, cds, 2)).incrementVoteCount();
+				}
 			}
 		}
 	}
@@ -160,31 +164,22 @@ public class VoteCollection implements Collection {
 	 * @return <code>(key = prefth preference still active) OR null</code>
 	 * 
 	 */
-	private CandidateIndex getPrefthKey(Vote v,TreeMap<CandidateIndex, Candidate> cds, int pref) {
-		int currentIndex = pref;
-		CandidateIndex currentPreferredCandidate = null;
-		for(int i = 0; i < cds.keySet().size(); i++){
-			currentPreferredCandidate = v.getPreference(currentIndex);
-			
-			if(cds.keySet().contains(currentPreferredCandidate)){
-				return currentPreferredCandidate;
+	private CandidateIndex getPrefthKey(Vote v, TreeMap<CandidateIndex, Candidate> cds, int pref){
+		boolean foundPref = false;
+		int curIndex = pref;
+		CandidateIndex cIndex = null;
+		
+		while(!foundPref){
+			if(cds.keySet().contains(v.getPreference(curIndex))){
+				foundPref = true;
+				cIndex = v.getPreference(curIndex);
 			}
 			else{
-				currentIndex++;
+				curIndex++;
 			}
 		}
-		return null;
+		return cIndex;
 	}
-//	private CandidateIndex getPrefthKey(Vote v, TreeMap<CandidateIndex, Candidate> cds, int pref){
-//		for (int i=pref; i < cds.keySet().size(); i++){
-//			for(CandidateIndex candIndex: cds.keySet()){
-//				if(candIndex.compareTo(v.getPreference(i)) == 0){
-//					return candIndex;
-//				}
-//			}
-//		}
-//		return null;
-//	}
 	/**
 	 * <p>Important helper method to find the first choice candidate in the current 
 	 * vote. This is always undertaken prior to distribution of preferences and so it 

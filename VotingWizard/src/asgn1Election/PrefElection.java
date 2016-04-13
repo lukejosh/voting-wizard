@@ -52,8 +52,6 @@ public class PrefElection extends Election {
 		while(candWinner == null){
 			candToDrop = this.selectLowestCandidate();
 			result += this.prefDistMessage(this.cds.get(candToDrop));
-			System.out.println("Remaining indices: " + this.cds.keySet().toString());
-			System.out.println("DISTRIB " + candToDrop.toString());
 			this.vc.countPrefVotes(this.cds, candToDrop);
 			this.cds.remove(candToDrop);
 			result += this.reportCountStatus();
