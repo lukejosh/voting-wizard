@@ -51,9 +51,11 @@ public class VoteCollection implements Collection {
 	 */
 	public VoteCollection(int numCandidates) throws ElectionException {
 		this.numCandidates = numCandidates;
-		this.voteList = new ArrayList<Vote>(numCandidates);
 		if(!CandidateIndex.inRange(this.numCandidates)){
 			throw new ElectionException("Number of candidates not in range");
+		}
+		else{
+			this.voteList = new ArrayList<Vote>(numCandidates);
 		}
 	}
 	
@@ -65,8 +67,11 @@ public class VoteCollection implements Collection {
 	@Override
 	public void countPrefVotes(TreeMap<CandidateIndex, Candidate> cds,
 			CandidateIndex elim) {
+		System.out.println("Eliminating " + elim.toString());
 		for(Vote v: this.voteList){
-			if(this.getPrefthKey(v, cds, 1) == elim){
+			CandidateIndex temp = this.getPrefthKey(v, cds, 1);
+			if(temp.compareTo(elim) == 0){
+				System.out.println("Redistributing: " + v.toString() + " to: " + this.getPrefthKey(v, cds, 2).toString());
 				cds.get(this.getPrefthKey(v, cds, 2)).incrementVoteCount();
 			}
 		}
@@ -150,27 +155,36 @@ public class VoteCollection implements Collection {
 	 * to the preferential election and so does not get used for the simple ballot.</p>
 	 * 
 	 * @param v <code>Vote</code> to be examined to find the pref-th active candidate
-	 * @param cds <code>TreeMap</code> set of all active candidates
+	 * @param cds <code>TreeMapcountPrefVotes</code> set of all active candidates
 	 * @param pref <code>int</code> specifies the preference we are looking for
 	 * @return <code>(key = prefth preference still active) OR null</code>
 	 * 
 	 */
 	private CandidateIndex getPrefthKey(Vote v,TreeMap<CandidateIndex, Candidate> cds, int pref) {
 		int currentIndex = pref;
-		CandidateIndex currentPreferredCandidate = v.getPreference(currentIndex);
-		while(currentIndex < cds.keySet().size()){
+		CandidateIndex currentPreferredCandidate = null;
+		for(int i = 0; i < cds.keySet().size(); i++){
 			currentPreferredCandidate = v.getPreference(currentIndex);
 			
 			if(cds.keySet().contains(currentPreferredCandidate)){
 				return currentPreferredCandidate;
 			}
 			else{
-				++currentIndex;
+				currentIndex++;
 			}
 		}
 		return null;
 	}
-
+//	private CandidateIndex getPrefthKey(Vote v, TreeMap<CandidateIndex, Candidate> cds, int pref){
+//		for (int i=pref; i < cds.keySet().size(); i++){
+//			for(CandidateIndex candIndex: cds.keySet()){
+//				if(candIndex.compareTo(v.getPreference(i)) == 0){
+//					return candIndex;
+//				}
+//			}
+//		}
+//		return null;
+//	}
 	/**
 	 * <p>Important helper method to find the first choice candidate in the current 
 	 * vote. This is always undertaken prior to distribution of preferences and so it 

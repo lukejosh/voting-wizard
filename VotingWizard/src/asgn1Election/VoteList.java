@@ -75,7 +75,7 @@ public class VoteList implements Vote {
 	 */
 	@Override
 	public CandidateIndex getPreference(int cand) {
-		return new CandidateIndex(this.vote.indexOf(cand) + 1);
+		return new CandidateIndex(this.vote.get(cand - 1));
 
 	}
 

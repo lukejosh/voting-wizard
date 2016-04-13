@@ -6,7 +6,10 @@
  */
 package asgn1Election;
 
+import java.util.ArrayList;
 import java.util.BitSet;
+import java.util.Iterator;
+import java.util.List;
 
 import asgn1Util.Strings;
 
@@ -27,7 +30,7 @@ public class PrefElection extends Election {
 	 * @param name <code>String</code> containing the Election name
 	 */
 	public PrefElection(String name) {
-		
+		super(name);
 	}
 
 	/*
@@ -37,7 +40,27 @@ public class PrefElection extends Election {
 	 */
 	@Override
 	public String findWinner() {
+		String result = "";
+		Candidate candWinner = null;
+		int winVotes = ((this.numVotes - this.vc.getInformalCount()) / 2) + 1;
+		CandidateIndex candToDrop = null;
 		
+		this.vc.countPrimaryVotes(this.cds);
+		result += this.reportCountStatus();
+		winner = this.clearWinner(winVotes);
+		
+		while(candWinner == null){
+			candToDrop = this.selectLowestCandidate();
+			result += this.prefDistMessage(this.cds.get(candToDrop));
+			System.out.println("Remaining indices: " + this.cds.keySet().toString());
+			System.out.println("DISTRIB " + candToDrop.toString());
+			this.vc.countPrefVotes(this.cds, candToDrop);
+			this.cds.remove(candToDrop);
+			result += this.reportCountStatus();
+			candWinner = this.clearWinner(winVotes);
+		}
+		result += this.reportWinner(candWinner);
+		return result;
 	}
 
 	/* 
@@ -47,7 +70,19 @@ public class PrefElection extends Election {
 	 */
 	@Override
 	public boolean isFormal(Vote v) {
+		List<Integer> checked = new ArrayList<Integer>();
+		Iterator<Integer> iter = v.iterator();
+		while(iter.hasNext()){
+			int value = iter.next();
+			if(checked.contains(value) || value < 1 || value > this.numCandidates){
+				return false;
+			}
+			else{
+				checked.add(value);
+			}
+		}
 		
+		return true;
 	}
 
 	/*
@@ -72,7 +107,6 @@ public class PrefElection extends Election {
 	@Override
 	protected Candidate clearWinner(int winVotes) {
 		for(Candidate cand: this.cds.values()){
-			System.out.println("Name: " + cand.getName() + " Votes: " + cand.getVoteCountString());
 			if(cand.getVoteCount() >= winVotes){
 				return cand;
 			}
@@ -120,6 +154,14 @@ public class PrefElection extends Election {
 	 * @return <code>CandidateIndex</code> of candidate with fewest votes
 	 */
 	private CandidateIndex selectLowestCandidate() {
-
+		int curLowest = this.numVotes + 1;
+		CandidateIndex candLowest = null;
+		for(CandidateIndex cIndex: this.cds.keySet()){
+			if (this.cds.get(cIndex).getVoteCount() < curLowest){
+				curLowest = this.cds.get(cIndex).getVoteCount();
+				candLowest = cIndex;
+			}
+		}
+		return candLowest;
 	}
 }
