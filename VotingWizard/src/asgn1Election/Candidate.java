@@ -47,6 +47,22 @@ public class Candidate {
 	 * @throws ElectionException if <code>isNullOrEmpty(candName,candParty,candAbbrev) OR voteCount <0</code>
 	 */
 	public Candidate(String candName, String candParty, String candAbbrev, int voteCount) throws ElectionException {
+		if(candName == null || candName == ""){
+			throw new ElectionException("Candidate name cannot be null");
+		}
+		
+		if(candParty == null || candParty == ""){
+			throw new ElectionException("Candidate party cannot be null");
+		}
+		
+		if(candAbbrev == null || candAbbrev == ""){
+			throw new ElectionException("Candidate abbreviation cannot be null");
+		}
+		
+		if(voteCount < 0){
+			throw new ElectionException("Vote count cannot be negative");
+		}
+		
 		this.name = candName;
 		this.party = candParty;
 		this.abbrev = candAbbrev;

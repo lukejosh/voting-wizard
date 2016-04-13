@@ -6,9 +6,7 @@
  */
 package asgn1Election;
 
-import java.util.Collection;
 import java.util.Iterator;
-import java.util.TreeMap;
 import asgn1Util.Strings;
 
 /**

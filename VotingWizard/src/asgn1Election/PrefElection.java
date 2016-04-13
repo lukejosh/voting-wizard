@@ -7,7 +7,6 @@
 package asgn1Election;
 
 import java.util.ArrayList;
-import java.util.BitSet;
 import java.util.Iterator;
 import java.util.List;
 
@@ -41,7 +40,7 @@ public class PrefElection extends Election {
 	@Override
 	public String findWinner() {
 		String result = "";
-		result += (this.showResultHeader() + "Counting Primrary Votes; " + this.numCandidates + " alternatives available\n");
+		result += (this.showResultHeader() + "Counting primary votes; " + this.numCandidates + " alternatives available\n");
 		Candidate candWinner = null;
 		int winVotes = (this.vc.getFormalCount() / 2) + 1;
 		CandidateIndex candToDrop = null;
@@ -53,6 +52,7 @@ public class PrefElection extends Election {
 		while(candWinner == null){
 			candToDrop = this.selectLowestCandidate();
 			result += this.prefDistMessage(this.cds.get(candToDrop));
+			result += "\n";
 			this.vc.countPrefVotes(this.cds, candToDrop);
 			this.cds.remove(candToDrop);
 			result += this.reportCountStatus();

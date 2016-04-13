@@ -86,7 +86,7 @@ public class VoteList implements Vote {
 	 */
 	@Override
 	public Vote invertVote() {
-		
+		return new VoteList(0);
 	}
 
 	/* 
