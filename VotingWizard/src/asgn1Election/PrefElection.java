@@ -41,8 +41,9 @@ public class PrefElection extends Election {
 	@Override
 	public String findWinner() {
 		String result = "";
+		result += (this.showResultHeader() + "Counting Primrary Votes; " + this.numCandidates + " alternatives available\n");
 		Candidate candWinner = null;
-		int winVotes = ((this.numVotes - this.vc.getInformalCount()) / 2) + 1;
+		int winVotes = (this.vc.getFormalCount() / 2) + 1;
 		CandidateIndex candToDrop = null;
 		
 		this.vc.countPrimaryVotes(this.cds);
@@ -152,7 +153,7 @@ public class PrefElection extends Election {
 	 * @return <code>CandidateIndex</code> of candidate with fewest votes
 	 */
 	private CandidateIndex selectLowestCandidate() {
-		int curLowest = this.numVotes + 1;
+		int curLowest = this.vc.getFormalCount() + 1;
 		CandidateIndex candLowest = null;
 		for(CandidateIndex cIndex: this.cds.keySet()){
 			if (this.cds.get(cIndex).getVoteCount() < curLowest){
