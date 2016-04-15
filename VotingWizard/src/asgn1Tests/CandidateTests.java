@@ -55,54 +55,17 @@ public class CandidateTests {
 	@Test
 	public void testCopyReturnsCopy() throws ElectionException {
 		Candidate testCand = new Candidate("John Smith", "Lemon Party", "LPT", 3);
-	}
-
-	/**
-	 * Test method for {@link asgn1Election.Candidate#getName()}.
-	 */
-	@Test
-	public void testGetName() {
-		fail("Not yet implemented");
-	}
-
-	/**
-	 * Test method for {@link asgn1Election.Candidate#getParty()}.
-	 */
-	@Test
-	public void testGetParty() {
-		fail("Not yet implemented");
-	}
-
-	/**
-	 * Test method for {@link asgn1Election.Candidate#getVoteCount()}.
-	 */
-	@Test
-	public void testGetVoteCount() {
-		fail("Not yet implemented");
-	}
-
-	/**
-	 * Test method for {@link asgn1Election.Candidate#getVoteCountString()}.
-	 */
-	@Test
-	public void testGetVoteCountString() {
-		fail("Not yet implemented");
+		assertEquals(testCand, testCand.copy());
 	}
 
 	/**
 	 * Test method for {@link asgn1Election.Candidate#incrementVoteCount()}.
 	 */
 	@Test
-	public void testIncrementVoteCount() {
-		fail("Not yet implemented");
-	}
-
-	/**
-	 * Test method for {@link asgn1Election.Candidate#toString()}.
-	 */
-	@Test
-	public void testToString() {
-		fail("Not yet implemented");
+	public void testIncrementVoteCount() throws ElectionException {
+		Candidate testCand = new Candidate("John Smith", "Lemon Party", "LPT", 4);
+		testCand.incrementVoteCount();
+		assertEquals(testCand.getVoteCount(), 5);
 	}
 
 }

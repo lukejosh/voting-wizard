@@ -47,7 +47,7 @@ public class PrefElection extends Election {
 		
 		this.vc.countPrimaryVotes(this.cds);
 		result += this.reportCountStatus();
-		winner = this.clearWinner(winVotes);
+		candWinner = this.clearWinner(winVotes);
 		
 		while(candWinner == null){
 			candToDrop = this.selectLowestCandidate();

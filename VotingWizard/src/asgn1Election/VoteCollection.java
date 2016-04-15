@@ -67,15 +67,20 @@ public class VoteCollection implements Collection {
 	@Override
 	public void countPrefVotes(TreeMap<CandidateIndex, Candidate> cds,
 			CandidateIndex elim) {
+		CandidateIndex assignTo;
+		int curPref = 2;
+		
 		for(Vote v: this.voteList){
 			CandidateIndex temp = this.getPrefthKey(v, cds, 1);
 			if(temp.compareTo(elim) == 0){
-				if(this.getPrefthKey(v, cds, 2).compareTo(temp) == 0){
-					cds.get(this.getPrefthKey(v, cds, 3)).incrementVoteCount();
+				assignTo = getPrefthKey(v, cds, curPref);
+				while(assignTo.compareTo(temp) == 0){
+					curPref++;
+					assignTo = this.getPrefthKey(v, cds, curPref);
 				}
-				else{
-					cds.get(this.getPrefthKey(v, cds, 2)).incrementVoteCount();
-				}
+				
+				cds.get(assignTo).incrementVoteCount();
+				curPref = 2;
 			}
 		}
 	}
@@ -100,6 +105,7 @@ public class VoteCollection implements Collection {
 	@Override
 	public void emptyTheCollection() {
 		this.voteList.clear();
+		this.formalCount = 0;
 	}
 
 	/*
