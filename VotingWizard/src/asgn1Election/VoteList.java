@@ -33,6 +33,7 @@ public class VoteList implements Vote {
 	 * @param numCandidates <code>int</code> number of candidates competing for 
 	 * this seat. 
 	 */
+	
 	public VoteList(int numCandidates) {
 		this.numCandidates = numCandidates;
 		vote = new ArrayList<Integer>(numCandidates);
@@ -62,9 +63,14 @@ public class VoteList implements Vote {
 	 */
 	@Override
 	public Vote copyVote() {
-		Vote newVote = new VoteList(this.numCandidates);
-		//TODO finish this method
 		
+		Vote newVote = new VoteList(this.numCandidates);
+		Iterator<Integer> iter = this.iterator();
+		
+		while(iter.hasNext()){
+			newVote.addPref(iter.next());
+		}
+
 		return newVote;
 	}
 
@@ -86,7 +92,13 @@ public class VoteList implements Vote {
 	 */
 	@Override
 	public Vote invertVote() {
-		return new VoteList(0);
+		Vote orderedVote = new VoteList(this.numCandidates);
+		
+		for(int i = 1; i <= this.numCandidates; i++){
+			orderedVote.addPref(this.vote.indexOf(i) + 1);
+		}
+		
+		return orderedVote;
 	}
 
 	/* 

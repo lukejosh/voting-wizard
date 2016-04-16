@@ -29,7 +29,7 @@ public class PrefElectionTests {
 	 * @throws FileNotFoundException 
 	 */
 	@Test
-	public void testFindWinnerDifferentCount() throws FileNotFoundException, ElectionException, IOException, NumbersException {
+	public void testFindWinnerRegular() throws FileNotFoundException, ElectionException, IOException, NumbersException {
 		String expectedOutput = "Results for election: MinMorgulVale\nEnrolment: 25\n\nShelob              Monster Spider Party          (MSP)\nGorbag              Filthy Orc Party              (FOP)\nShagrat             Stinking Orc Party            (SOP)\n\n\nCounting primary votes; 3 alternatives available\n\nPreferential election: MinMorgulVale\n\nShelob (MSP)                 8\nGorbag (FOP)                 7\nShagrat (SOP)                3\n\nInformal                     3\n\nVotes Cast                  21\n\n\nPreferences required: distributing Shagrat: 3 votes\n\nPreferential election: MinMorgulVale\n\nShelob (MSP)                10\nGorbag (FOP)                 8\n\nInformal                     3\n\nVotes Cast                  21\n\n\nCandidate Shelob (Monster Spider Party) is the winner with 10 votes...\n";
 		PrefElection testElection = new PrefElection("MinMorgulVale");
 		testElection.loadDefs();
@@ -46,8 +46,8 @@ public class PrefElectionTests {
 	 * @throws FileNotFoundException 
 	 */
 	@Test
-	public void testFindWinnerSameCount() throws FileNotFoundException, ElectionException, IOException, NumbersException {
-		String expectedOutput = "Results for election: MinMorgulValeTie\nEnrolment: 25\n\nShelob              Monster Spider Party          (MSP)\nGorbag              Filthy Orc Party              (FOP)\nShagrat             Stinking Orc Party            (SOP)\n\n\nCounting primary votes; 3 alternatives available\n\nPreferential election: MinMorgulValeTie\n\nShelob (MSP)                 8\nGorbag (FOP)                 7\nShagrat (SOP)                3\n\nInformal                     3\n\nVotes Cast                  21\n\n\nPreferences required: distributing Shagrat: 3 votes\n\nPreferential election: MinMorgulValeTie\n\nShelob (MSP)                 9\nGorbag (FOP)                 9\n\nInformal                     3\n\nVotes Cast                  21\n\n\nPreferences required: distributing Shelob: 9 votes\n\nPreferential election: MinMorgulValeTie\n\nGorbag (FOP)                18\n\nInformal                     3\n\nVotes Cast                  21\n\n\nCandidate Gorbag (Filthy Orc Party) is the winner with 18 votes...\n";
+	public void testFindWinnerTie() throws FileNotFoundException, ElectionException, IOException, NumbersException {
+		String expectedOutput = "Results for election: MinMorgulValeTie\nEnrolment: 25\n\nShelob asdasd             Monster Spider Party          (MSP)\nGorbag              Filthy Orc Party              (FOP)\nShagrat             Stinking Orc Party            (SOP)\n\n\nCounting primary votes; 3 alternatives available\n\nPreferential election: MinMorgulValeTie\n\nShelob (MSP)                 8\nGorbag (FOP)                 7\nShagrat (SOP)                3\n\nInformal                     3\n\nVotes Cast                  21\n\n\nPreferences required: distributing Shagrat: 3 votes\n\nPreferential election: MinMorgulValeTie\n\nShelob (MSP)                 9\nGorbag (FOP)                 9\n\nInformal                     3\n\nVotes Cast                  21\n\n\nPreferences required: distributing Shelob: 9 votes\n\nPreferential election: MinMorgulValeTie\n\nGorbag (FOP)                18\n\nInformal                     3\n\nVotes Cast                  21\n\n\nCandidate Gorbag (Filthy Orc Party) is the winner with 18 votes...\n";
 		PrefElection testElection = new PrefElection("MinMorgulValeTie");
 		testElection.loadDefs();
 		testElection.loadVotes();

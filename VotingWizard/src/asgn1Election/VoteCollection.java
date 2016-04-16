@@ -105,6 +105,7 @@ public class VoteCollection implements Collection {
 	@Override
 	public void emptyTheCollection() {
 		this.voteList.clear();
+		this.formalCount = 0;
 	}
 
 	/*

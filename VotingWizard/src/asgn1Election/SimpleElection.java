@@ -36,11 +36,11 @@ public class SimpleElection extends Election {
 	@Override
 	public String findWinner() {
 		String result = this.showResultHeader();
+		
 		result += "Counting primary votes; " + this.numCandidates + " alternatives available\n";
 		this.vc.countPrimaryVotes(this.cds);
 		result += this.reportCountResult();
 		Candidate winner = this.clearWinner(0);
-		
 		result += this.reportWinner(winner);
 		
 		return result;
@@ -58,7 +58,7 @@ public class SimpleElection extends Election {
 		
 		while (iter.hasNext()){
 			value = iter.next();
-			if(value > this.numCandidates){
+			if(value > this.numCandidates || value < 0){ //cannot be greater than the number of candidates, or less than zero
 				return false;
 			}
 			if(value == 1){

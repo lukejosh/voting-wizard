@@ -23,10 +23,20 @@ public class VoteCollectionTests {
 
 	/**
 	 * Test method for {@link asgn1Election.VoteCollection#VoteCollection(int)}.
+	 * @throws ElectionException 
 	 */
-	@Test
-	public void testVoteCollection() {
-		fail("Not yet implemented");
+	@Test(expected = ElectionException.class)
+	public void testVoteCollectionThrowsExceptionOutOfRangeUpper() throws ElectionException {
+		VoteCollection testVc = new VoteCollection(16);
+	}
+	
+	/**
+	 * Test method for {@link asgn1Election.VoteCollection#VoteCollection(int)}.
+	 * @throws ElectionException 
+	 */
+	@Test(expected = ElectionException.class)
+	public void testVoteCollectionThrowsExceptionOutOfRangeLower() throws ElectionException {
+		VoteCollection testVc = new VoteCollection(-1);
 	}
 
 	/**
@@ -161,41 +171,36 @@ public class VoteCollectionTests {
 		int oldVoteCount = testVc.getFormalCount();
 		testVc.emptyTheCollection();
 		
-		System.out.println(Integer.toString(oldVoteCount) + " " + testVc.getFormalCount());
-		
 		assertNotEquals(oldVoteCount, testVc.getFormalCount());
 	}
 
 	/**
-	 * Test method for {@link asgn1Election.VoteCollection#getFormalCount()}.
-	 */
-	@Test
-	public void testGetFormalCount() {
-		fail("Not yet implemented");
-	}
-
-	/**
-	 * Test method for {@link asgn1Election.VoteCollection#getInformalCount()}.
-	 */
-	@Test
-	public void testGetInformalCount() {
-		fail("Not yet implemented");
-	}
-
-	/**
 	 * Test method for {@link asgn1Election.VoteCollection#includeFormalVote(asgn1Election.Vote)}.
+	 * @throws ElectionException 
 	 */
 	@Test
-	public void testIncludeFormalVote() {
-		fail("Not yet implemented");
+	public void testIncludeFormalVote() throws ElectionException {
+		VoteList testVote = new VoteList(3);
+		testVote.addPref(1);
+		testVote.addPref(2);
+		testVote.addPref(3);
+		
+		VoteCollection testVc = new VoteCollection(3);
+		testVc.includeFormalVote(testVote);
+		
+		assertEquals(testVc.getFormalCount(), 1);
 	}
 
 	/**
 	 * Test method for {@link asgn1Election.VoteCollection#updateInformalCount()}.
+	 * @throws ElectionException 
 	 */
 	@Test
-	public void testUpdateInformalCount() {
-		fail("Not yet implemented");
+	public void testUpdateInformalCount() throws ElectionException {
+		VoteCollection testVc = new VoteCollection(1);
+		testVc.updateInformalCount();
+		
+		assertEquals(testVc.getInformalCount(), 1);
 	}
 
 }
