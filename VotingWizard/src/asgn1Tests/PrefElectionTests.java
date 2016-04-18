@@ -83,13 +83,32 @@ public class PrefElectionTests {
 	 * @throws FileNotFoundException 
 	 */
 	@Test
-	public void testIsFormalPreferenceOutOfRange() throws FileNotFoundException, ElectionException, IOException, NumbersException {
+	public void testIsFormalPreferenceOutOfRangeUpper() throws FileNotFoundException, ElectionException, IOException, NumbersException {
 		PrefElection testElection = new PrefElection("MinMorgulVale"); //allows number of candidates to be loaded, for formality check
 		testElection.loadDefs();
 		VoteList testVote = new VoteList(testElection.getNumCandidates());
 		testVote.addPref(1);
 		testVote.addPref(2);
 		testVote.addPref(4);
+		
+		assertFalse(testElection.isFormal(testVote));
+	}
+	
+	/**
+	 * Test method for {@link asgn1Election.PrefElection#isFormal(asgn1Election.Vote)}.
+	 * @throws NumbersException 
+	 * @throws IOException 
+	 * @throws ElectionException 
+	 * @throws FileNotFoundException 
+	 */
+	@Test
+	public void testIsFormalPreferenceOutOfRangeLower() throws FileNotFoundException, ElectionException, IOException, NumbersException {
+		PrefElection testElection = new PrefElection("MinMorgulVale"); //allows number of candidates to be loaded, for formality check
+		testElection.loadDefs();
+		VoteList testVote = new VoteList(testElection.getNumCandidates());
+		testVote.addPref(1);
+		testVote.addPref(2);
+		testVote.addPref(-1);
 		
 		assertFalse(testElection.isFormal(testVote));
 	}
@@ -112,6 +131,45 @@ public class PrefElectionTests {
 		
 		assertTrue(testElection.isFormal(testVote));
 	}
+	/**
+	 * Test method for {@link asgn1Election.PrefElection#isFormal(asgn1Election.Vote)}.
+	 * @throws NumbersException 
+	 * @throws IOException 
+	 * @throws ElectionException 
+	 * @throws FileNotFoundException 
+	 */
+	@Test
+	public void testIsFormalFailsDuplicatePrefNotFirst() throws FileNotFoundException, ElectionException, IOException, NumbersException {
+		PrefElection testElection = new PrefElection("MinMorgulVale"); //allows number of candidates to be loaded, for formality check
+		testElection.loadDefs();
+		VoteList testVote = new VoteList(testElection.getNumCandidates());
+		testVote.addPref(1);
+		testVote.addPref(2);
+		testVote.addPref(2);
+		
+		assertFalse(testElection.isFormal(testVote));
+	}
+	
+	/**
+	 * Test method for {@link asgn1Election.PrefElection#isFormal(asgn1Election.Vote)}.
+	 * @throws NumbersException 
+	 * @throws IOException 
+	 * @throws ElectionException 
+	 * @throws FileNotFoundException 
+	 */
+	@Test
+	public void testIsFormalFailsNoFirstPref() throws FileNotFoundException, ElectionException, IOException, NumbersException {
+		PrefElection testElection = new PrefElection("MinMorgulVale"); //allows number of candidates to be loaded, for formality check
+		testElection.loadDefs();
+		VoteList testVote = new VoteList(testElection.getNumCandidates());
+		testVote.addPref(2);
+		testVote.addPref(3);
+		testVote.addPref(4);
+		
+		assertFalse(testElection.isFormal(testVote));
+	}
+	
+	
 	
 	/**
 	 * Test method for {@link asgn1Election.Election#loadDefs()}.
