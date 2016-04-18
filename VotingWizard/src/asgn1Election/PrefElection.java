@@ -71,6 +71,7 @@ public class PrefElection extends Election {
 	public boolean isFormal(Vote v) {
 		List<Integer> checked = new ArrayList<Integer>();
 		Iterator<Integer> iter = v.iterator();
+		
 		while(iter.hasNext()){
 			int value = iter.next();
 			if(checked.contains(value) || value < 1 || value > this.numCandidates){
@@ -79,6 +80,10 @@ public class PrefElection extends Election {
 			else{
 				checked.add(value);
 			}
+		}
+		
+		if(! (checked.size() == this.numCandidates)){
+			return false;
 		}
 		
 		return true;

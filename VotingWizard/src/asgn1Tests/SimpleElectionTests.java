@@ -147,6 +147,45 @@ public class SimpleElectionTests {
 	 * @throws FileNotFoundException 
 	 */
 	@Test
+	public void testIsFormalMissingFirstPref() throws FileNotFoundException, ElectionException, IOException, NumbersException {
+		SimpleElection testElection = new SimpleElection("MinMorgulValeSimple"); //Load number of candidates, required for formality test
+		VoteList testVote = new VoteList(3);
+		testElection.loadDefs();
+		testVote.addPref(2);
+		testVote.addPref(3);
+		testVote.addPref(3);
+		
+		assertFalse(testElection.isFormal(testVote));
+		
+	}
+	
+	/**
+	 * Test method for {@link asgn1Election.SimpleElection#isFormal(asgn1Election.Vote)}.
+	 * @throws NumbersException 
+	 * @throws IOException 
+	 * @throws ElectionException 
+	 * @throws FileNotFoundException 
+	 */
+	@Test
+	public void testIsFormalPartiallyFilledVote() throws FileNotFoundException, ElectionException, IOException, NumbersException {
+		SimpleElection testElection = new SimpleElection("MinMorgulValeSimple"); //Load number of candidates, required for formality test
+		VoteList testVote = new VoteList(3);
+		testElection.loadDefs();
+		testVote.addPref(1);
+		testVote.addPref(3);
+		
+		assertTrue(testElection.isFormal(testVote));
+		
+	}
+	
+	/**
+	 * Test method for {@link asgn1Election.SimpleElection#isFormal(asgn1Election.Vote)}.
+	 * @throws NumbersException 
+	 * @throws IOException 
+	 * @throws ElectionException 
+	 * @throws FileNotFoundException 
+	 */
+	@Test
 	public void testIsFormalPassesFormalVote() throws FileNotFoundException, ElectionException, IOException, NumbersException {
 		SimpleElection testElection = new SimpleElection("invalidSimpleVoteElection");
 		VoteList testVote = new VoteList(3);

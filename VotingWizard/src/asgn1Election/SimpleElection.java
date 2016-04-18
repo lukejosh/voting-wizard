@@ -58,7 +58,7 @@ public class SimpleElection extends Election {
 		
 		while (iter.hasNext()){
 			value = iter.next();
-			if(value > this.numCandidates || value < 0){ //cannot be greater than the number of candidates, or less than zero
+			if(value > this.numCandidates || value <= 0){ //cannot be greater than the number of candidates, or less than zero
 				return false;
 			}
 			if(value == 1){

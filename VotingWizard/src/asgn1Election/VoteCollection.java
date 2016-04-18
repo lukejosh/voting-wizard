@@ -106,6 +106,7 @@ public class VoteCollection implements Collection {
 	public void emptyTheCollection() {
 		this.voteList.clear();
 		this.formalCount = 0;
+		this.informalCount = 0;
 	}
 
 	/*
