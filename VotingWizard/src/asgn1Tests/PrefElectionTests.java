@@ -12,6 +12,7 @@ import org.junit.Test;
 
 import asgn1Election.ElectionException;
 import asgn1Election.PrefElection;
+import asgn1Election.VoteCollection;
 import asgn1Election.VoteList;
 import asgn1Util.NumbersException;
 
@@ -47,7 +48,7 @@ public class PrefElectionTests {
 	 */
 	@Test
 	public void testFindWinnerTie() throws FileNotFoundException, ElectionException, IOException, NumbersException {
-		String expectedOutput = "Results for election: MinMorgulValeTie\nEnrolment: 25\n\nShelob asdasd             Monster Spider Party          (MSP)\nGorbag              Filthy Orc Party              (FOP)\nShagrat             Stinking Orc Party            (SOP)\n\n\nCounting primary votes; 3 alternatives available\n\nPreferential election: MinMorgulValeTie\n\nShelob (MSP)                 8\nGorbag (FOP)                 7\nShagrat (SOP)                3\n\nInformal                     3\n\nVotes Cast                  21\n\n\nPreferences required: distributing Shagrat: 3 votes\n\nPreferential election: MinMorgulValeTie\n\nShelob (MSP)                 9\nGorbag (FOP)                 9\n\nInformal                     3\n\nVotes Cast                  21\n\n\nPreferences required: distributing Shelob: 9 votes\n\nPreferential election: MinMorgulValeTie\n\nGorbag (FOP)                18\n\nInformal                     3\n\nVotes Cast                  21\n\n\nCandidate Gorbag (Filthy Orc Party) is the winner with 18 votes...\n";
+		String expectedOutput = "Results for election: MinMorgulValeTie\nEnrolment: 25\n\nShelob              Monster Spider Party          (MSP)\nGorbag              Filthy Orc Party              (FOP)\nShagrat             Stinking Orc Party            (SOP)\n\n\nCounting primary votes; 3 alternatives available\n\nPreferential election: MinMorgulValeTie\n\nShelob (MSP)                 8\nGorbag (FOP)                 7\nShagrat (SOP)                3\n\nInformal                     3\n\nVotes Cast                  21\n\n\nPreferences required: distributing Shagrat: 3 votes\n\nPreferential election: MinMorgulValeTie\n\nShelob (MSP)                 9\nGorbag (FOP)                 9\n\nInformal                     3\n\nVotes Cast                  21\n\n\nPreferences required: distributing Shelob: 9 votes\n\nPreferential election: MinMorgulValeTie\n\nGorbag (FOP)                18\n\nInformal                     3\n\nVotes Cast                  21\n\n\nCandidate Gorbag (Filthy Orc Party) is the winner with 18 votes...\n";
 		PrefElection testElection = new PrefElection("MinMorgulValeTie");
 		testElection.loadDefs();
 		testElection.loadVotes();
@@ -111,29 +112,108 @@ public class PrefElectionTests {
 		
 		assertTrue(testElection.isFormal(testVote));
 	}
-
+	
 	/**
-	 * Test method for {@link asgn1Election.PrefElection#clearWinner(int)}.
+	 * Test method for {@link asgn1Election.Election#loadDefs()}.
 	 */
-	@Test
-	public void testClearWinner() {
-		fail("Not yet implemented");
+	@Test(expected=ElectionException.class)
+	public void testLoadDefsFailsInvalidElectionFile() throws FileNotFoundException, ElectionException, IOException, NumbersException{
+		PrefElection testElection = new PrefElection("/testdata/InvalidPrefElection");
+		testElection.loadDefs();
 	}
-
+	
 	/**
-	 * Test method for {@link asgn1Election.PrefElection#PrefElection(java.lang.String)}.
+	 * Test method for {@link asgn1Election.Election#loadDefs()}.
 	 */
-	@Test
-	public void testPrefElection() {
-		fail("Not yet implemented");
+	@Test(expected=ElectionException.class)
+	public void testLoadDefsFailsNoSeatName() throws FileNotFoundException, ElectionException, IOException, NumbersException{
+		PrefElection testElection = new PrefElection("/testdata/prefElectionMissingSeatName");
+		testElection.loadDefs();
 	}
-
+	
 	/**
-	 * Test method for {@link asgn1Election.PrefElection#toString()}.
+	 * Test method for {@link asgn1Election.Election#loadDefs()}.
 	 */
+	@Test(expected=ElectionException.class)
+	public void testLoadDefsFailsNoEnrolment() throws FileNotFoundException, ElectionException, IOException, NumbersException{
+		PrefElection testElection = new PrefElection("/testdata/prefElectionMissingEnrolment");
+		testElection.loadDefs();
+	}
+	
+	/**
+	 * Test method for {@link asgn1Election.Election#loadDefs()}.
+	 */
+	@Test(expected=NumbersException.class)
+	public void testLoadDefsFailsInvalidEnrolment() throws FileNotFoundException, ElectionException, IOException, NumbersException{
+		PrefElection testElection = new PrefElection("/testdata/prefElectionInvalidEnrolment");
+		testElection.loadDefs();
+	}
+	
+	/**
+	 * Test method for {@link asgn1Election.Election#loadDefs()}.
+	 */
+	@Test(expected=ElectionException.class)
+	public void testLoadDefsFailsNoNumCandidates() throws FileNotFoundException, ElectionException, IOException, NumbersException{
+		PrefElection testElection = new PrefElection("/testdata/prefElectionNoNumCandidates");
+		testElection.loadDefs();
+	}
+	
+	/**
+	 * Test method for {@link asgn1Election.Election#loadDefs()}.
+	 */
+	@Test(expected=NumbersException.class)
+	public void testLoadDefsFailsInvalidNumCandidates() throws FileNotFoundException, ElectionException, IOException, NumbersException{
+		PrefElection testElection = new PrefElection("/testdata/prefElectionInvalidNumCandidates");
+		testElection.loadDefs();
+	}
+	
+	/**
+	 * Test method for {@link asgn1Election.Election#loadDefs()}.
+	 */
+	@Test(expected=NumbersException.class)
+	public void testLoadDefsFailsInvalidVoteValues() throws FileNotFoundException, ElectionException, IOException, NumbersException{
+		PrefElection testElection = new PrefElection("/testdata/prefElectionInvalidNumCandidates");
+		testElection.loadDefs();
+	}
+	
+	/**
+	 * Test method for {@link asgn1Election.Election#loadDefs()}.
+	 */
+	@Test(expected=ElectionException.class)
+	public void testLoadVotesFailsTooFewVotes() throws FileNotFoundException, ElectionException, IOException, NumbersException{
+		PrefElection testElection = new PrefElection("/testdata/prefElectionTooFewPreferences");
+		testElection.loadDefs();
+		testElection.loadVotes();
+	}
+	
+	/**
+	 * Test method for {@link asgn1Election.Election#loadDefs()}.
+	 * @throws ElectionException
+	 */
+	@Test(expected=ElectionException.class)
+	public void testLoadVotesFailsMissingVoteValues() throws FileNotFoundException, ElectionException, IOException, NumbersException{
+		PrefElection testElection = new PrefElection("/testdata/prefElectionMissingVoteValues");
+		testElection.loadDefs();
+		testElection.loadVotes();
+	}
+	
+	/**
+	 * Test method for {@link asgn1Election.Election#loadDefs()}.
+	 */
+	@Test(expected=NumbersException.class)
+	public void testLoadVotesFailsInvalidVoteValues() throws FileNotFoundException, ElectionException, IOException, NumbersException{
+		PrefElection testElection = new PrefElection("/testdata/prefElectionInvalidVoteValues");
+		testElection.loadDefs();
+		testElection.loadVotes();
+	}
+	
 	@Test
-	public void testToString() {
-		fail("Not yet implemented");
+	public void testLoadVotesMorgulValeThirtyVotes() throws FileNotFoundException, ElectionException, IOException, NumbersException {
+		ExtendedElection elec = new ExtendedElection("MorgulVale");
+    	elec.loadDefs();
+		elec.loadVotes();
+		VoteCollection vc = (VoteCollection) elec.getVoteCollection(); 
+		assertTrue((vc.getFormalCount() == 30) && (vc.getInformalCount() == 0));
 	}
 
 }
